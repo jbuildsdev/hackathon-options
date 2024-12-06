@@ -192,42 +192,44 @@ function App() {
             Put
           </label>
         </div>
-        <div>
-          <label htmlFor="token">Token: </label>
-          <input className="input input-bordered h-8"
-            id="token"
-            type="text"
-            value={token}
-            onChange={(e) => setToken(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="amount">Amount: </label>
-          <input className="input input-bordered h-8"
-            id="amount"
-            type="number"
-            value={amount}
-            onChange={(e) => setAmount(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="premium">Premium: </label>
-          <input className="input input-bordered h-8"
-            id="premium"
-            type="number"
-            value={premium}
-            onChange={(e) => setPremium(e.target.value)}
-          />
-        </div>
-        <div>
-          <label htmlFor="strike">Strike Price: </label>
-          <input className="input input-bordered h-8"
-            id="strike"
-            type="number"
-            value={strike}
-            onChange={(e) => setStrike(e.target.value)}
-          />
-        </div>
+        <div className="flex flex-col items-end gap-2">
+          <div>
+            <label htmlFor="token">Token: </label>
+            <input className="input input-bordered h-8"
+              id="token"
+              type="text"
+              value={token}
+              onChange={(e) => setToken(e.target.value)}
+            />
+          </div>
+          <div>
+            <label htmlFor="amount">Amount: </label>
+            <input className="input input-bordered h-8"
+              id="amount"
+              type="number"
+              value={amount}
+              onChange={(e) => setAmount(e.target.value)}
+            />
+          </div>
+          <div>
+            <label htmlFor="premium">Premium: </label>
+            <input className="input input-bordered h-8"
+              id="premium"
+              type="number"
+              value={premium}
+              onChange={(e) => setPremium(e.target.value)}
+            />
+          </div>
+          <div>
+            <label htmlFor="strike">Strike Price: </label>
+            <input className="input input-bordered h-8"
+              id="strike"
+              type="number"
+              value={strike}
+              onChange={(e) => setStrike(e.target.value)}
+            />
+          </div>
+          </div>
         <div>
           <label htmlFor="expiry">Expiry Date: </label>
           <input className="input input-bordered h-8"
@@ -241,7 +243,7 @@ function App() {
       </div>
 
       <div className="flex flex-col justify-center items-center gap-2">
-        <h2>Buy an Option</h2>
+        <h2 className="font-bold">Buy an Option</h2>
         <div>
           {/* <label htmlFor="options">Select Option: </label> */}
           <select
@@ -263,7 +265,7 @@ function App() {
       </div>
 
       <div className="flex flex-col justify-center items-center  gap-2">
-        <h2>Exercise an Option</h2>
+        <h2 className="font-bold">Exercise an Option</h2>
         <div>
           {/* <label htmlFor="owned-options">Select Owned Option: </label> */}
           <select
