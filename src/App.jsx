@@ -10,7 +10,6 @@ function App() {
   const [walletData, setWalletData] = useState();
   const [accountId, setAccountId] = useState();
   const [connectTextSt, setConnectTextSt] = useState("Connect Wallet");
-  const [connectLinkSt, setConnectLinkSt] = useState("");
 
   // Unified state for options
   const [options, setOptions] = useState([]);
@@ -31,8 +30,7 @@ function App() {
         pairingData.accountIds.forEach((id) => {
           setAccountId(id);
           console.log(`- Paired account id: ${id}`);
-          setConnectTextSt(`🔌 Account ${id} connected ⚡ ✅`);
-          setConnectLinkSt(`https://hashscan.io/#/testnet/account/${id}`);
+          setConnectTextSt(`${id}`);
         });
       });
       setWalletData(wData);
@@ -156,11 +154,6 @@ function App() {
           <button onClick={connectWallet} className="btn btn-secondary">
             {connectTextSt}
           </button>
-          {connectLinkSt && (
-            <a href={connectLinkSt} target="_blank" rel="noreferrer">
-              View on HashScan
-            </a>
-          )}
         </div>
       </div>
 
@@ -206,7 +199,7 @@ function App() {
             <label htmlFor="amount">Amount: </label>
             <input className="input input-bordered h-8"
               id="amount"
-              type="number"
+              type="text"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
             />
@@ -215,7 +208,7 @@ function App() {
             <label htmlFor="premium">Premium: </label>
             <input className="input input-bordered h-8"
               id="premium"
-              type="number"
+              type="text"
               value={premium}
               onChange={(e) => setPremium(e.target.value)}
             />
@@ -224,7 +217,7 @@ function App() {
             <label htmlFor="strike">Strike Price: </label>
             <input className="input input-bordered h-8"
               id="strike"
-              type="number"
+              type="text"
               value={strike}
               onChange={(e) => setStrike(e.target.value)}
             />
@@ -252,7 +245,7 @@ function App() {
             value={selectedOptionIndex}
             onChange={(e) => setSelectedOptionIndex(e.target.value)}
           >
-            <option value="">-- Select an Option --</option>
+            <option value="">Select Option</option>
             {options.map((option, index) => (
               <option key={index} value={index}>
                 {option.isCall ? "Call" : "Put"} Option {index + 1} - Token:{" "}
@@ -274,7 +267,7 @@ function App() {
             value={selectedOptionIndex}
             onChange={(e) => setSelectedOptionIndex(e.target.value)}
           >
-            <option value="">-- Select an Option --</option>
+            <option value="">Select Option</option>
             {options.map((option, index) => (
               <option key={index} value={index}>
                 {option.isCall ? "Call" : "Put"} Option {index + 1} - Token:{" "}
