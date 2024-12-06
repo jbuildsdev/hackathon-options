@@ -9,7 +9,7 @@ function App() {
   // State for connected wallet
   const [walletData, setWalletData] = useState();
   const [accountId, setAccountId] = useState();
-  const [connectTextSt, setConnectTextSt] = useState("🔌 Connect here...");
+  const [connectTextSt, setConnectTextSt] = useState("Connect Wallet");
   const [connectLinkSt, setConnectLinkSt] = useState("");
 
   // Unified state for options
@@ -149,23 +149,29 @@ function App() {
 
   return (
     <div className="App">
-      <h1 className="header">HASHCALLS</h1>
-      <div>
-        <button onClick={connectWallet} className="cta-button">
-          {connectTextSt}
-        </button>
-        {connectLinkSt && (
-          <a href={connectLinkSt} target="_blank" rel="noreferrer">
-            View on HashScan
-          </a>
-        )}
+
+      <div className="navbar bg-neutral flex justify-between items-center py-4 px-8">
+        <h1 className="header">HASHCALLS</h1>
+        <div>
+          <button onClick={connectWallet} className="btn btn-secondary">
+            {connectTextSt}
+          </button>
+          {connectLinkSt && (
+            <a href={connectLinkSt} target="_blank" rel="noreferrer">
+              View on HashScan
+            </a>
+          )}
+        </div>
       </div>
 
-      <div>
-        <h2>Create an Option</h2>
-        <div>
-          <label>
+      <div className="flex flex-col gap-8">
+
+      <div className="flex flex-col justify-center items-center gap-2">
+        <h2 className="font-bold">Create an Option</h2>
+        <div className="flex gap-4">
+          <label className="flex gap-2">
             <input
+              className="radio radio-primary"
               type="radio"
               name="optionType"
               value="call"
@@ -174,8 +180,9 @@ function App() {
             />
             Call
           </label>
-          <label>
+          <label className="flex gap-2">
             <input
+              className="radio radio-secondary"
               type="radio"
               name="optionType"
               value="put"
@@ -187,7 +194,7 @@ function App() {
         </div>
         <div>
           <label htmlFor="token">Token: </label>
-          <input
+          <input className="input input-bordered h-8"
             id="token"
             type="text"
             value={token}
@@ -196,7 +203,7 @@ function App() {
         </div>
         <div>
           <label htmlFor="amount">Amount: </label>
-          <input
+          <input className="input input-bordered h-8"
             id="amount"
             type="number"
             value={amount}
@@ -205,7 +212,7 @@ function App() {
         </div>
         <div>
           <label htmlFor="premium">Premium: </label>
-          <input
+          <input className="input input-bordered h-8"
             id="premium"
             type="number"
             value={premium}
@@ -214,7 +221,7 @@ function App() {
         </div>
         <div>
           <label htmlFor="strike">Strike Price: </label>
-          <input
+          <input className="input input-bordered h-8"
             id="strike"
             type="number"
             value={strike}
@@ -223,21 +230,22 @@ function App() {
         </div>
         <div>
           <label htmlFor="expiry">Expiry Date: </label>
-          <input
+          <input className="input input-bordered h-8"
             id="expiry"
             type="datetime-local"
             value={expiry}
             onChange={(e) => setExpiry(e.target.value)}
           />
         </div>
-        <button onClick={addOption}>Add Option</button>
+        <button className="btn btn-secondary" onClick={addOption}>Add Option</button>
       </div>
 
-      <div>
+      <div className="flex flex-col justify-center items-center gap-2">
         <h2>Buy an Option</h2>
         <div>
-          <label htmlFor="options">Select Option: </label>
+          {/* <label htmlFor="options">Select Option: </label> */}
           <select
+          className="select select-bordered"
             id="options"
             value={selectedOptionIndex}
             onChange={(e) => setSelectedOptionIndex(e.target.value)}
@@ -251,14 +259,15 @@ function App() {
             ))}
           </select>
         </div>
-        <button onClick={buyOptionFnc}>Buy Option</button>
+        <button className="btn btn-secondary" onClick={buyOptionFnc}>Buy Option</button>
       </div>
 
-      <div>
+      <div className="flex flex-col justify-center items-center  gap-2">
         <h2>Exercise an Option</h2>
         <div>
-          <label htmlFor="owned-options">Select Owned Option: </label>
+          {/* <label htmlFor="owned-options">Select Owned Option: </label> */}
           <select
+            className="select select-bordered"
             id="owned-options"
             value={selectedOptionIndex}
             onChange={(e) => setSelectedOptionIndex(e.target.value)}
@@ -272,8 +281,11 @@ function App() {
             ))}
           </select>
         </div>
-        <button onClick={exerciseOptionFnc}>Exercise Option</button>
+        <button className="btn btn-secondary" onClick={exerciseOptionFnc}>Exercise Option</button>
       </div>
+
+      </div>
+
     </div>
   );
 }
