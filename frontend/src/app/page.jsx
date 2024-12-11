@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { motion } from "framer-motion";
 import {
   Card,
@@ -16,39 +16,19 @@ import {
   SelectTrigger,
   SelectValue,
 } from "./components/ui/select";
-import walletConnectFcn from "./components/hedera/walletConnect.js";
 import "./styles/App.css";
-import signTx from "./components/hedera/signTx.js";
-import { writeOption, uploadOptionToDynamo } from "../api/actions.js";
+import { signTx } from "./components/hedera/signTx.js";
+import { writeOption } from "../api/actions.js";
+import { WalletContext } from './components/WalletProvider.jsx';
 
 export default function CreatePage() {
-  const [walletData, setWalletData] = useState();
-  const [accountId, setAccountId] = useState();
-  const [connectTextSt, setConnectTextSt] = useState("🔌 Connect here...");
-  const [connectLinkSt, setConnectLinkSt] = useState("");
-
   const [token, setToken] = useState("");
   const [amount, setAmount] = useState("");
   const [premium, setPremium] = useState("");
   const [strike, setStrike] = useState("");
   const [expiry, setExpiry] = useState("");
   const [optionType, setOptionType] = useState("call");
-
-  async function connectWallet() {
-    if (accountId) {
-      setConnectTextSt(`🔌 Account ${accountId} already connected ⚡ ✅`);
-    } else {
-      const wData = await walletConnectFcn();
-      wData[0].pairingEvent.once((pairingData) => {
-        pairingData.accountIds.forEach((id) => {
-          setAccountId(id);
-          setConnectTextSt(`🔌 Account ${id} connected ⚡ ✅`);
-          setConnectLinkSt(`https://hashscan.io/#/testnet/account/${id}`);
-        });
-      });
-      setWalletData(wData);
-    }
-  }
+  const { accountId, walletData } = useContext(WalletContext)
 
   async function createOption() {
     if (!token || !amount || !strike || !expiry) {
@@ -62,7 +42,9 @@ export default function CreatePage() {
       token,
       amount,
       strike,
-      isCall
+      isCall,
+      premium,
+      expiry
     );
 
     const hashconnect = walletData[0];
@@ -81,15 +63,6 @@ export default function CreatePage() {
       provider
     );
     console.log("Transfer receipt:", transferReceipt);
-
-    if (!transferReceipt.status) {
-      // TODO: Delete NFT metadata from S3
-      return;
-
-    } else {
-      // Upload option to DynamoDB
-      await uploadOptionToDynamo(writerNftSerial, accountId, token, amount, strike, isCall);
-    }
 
     // Clear input fields
     setToken("");
@@ -116,21 +89,6 @@ export default function CreatePage() {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.5 }}
       >
-        <div className="mb-6 text-center">
-          <Button onClick={connectWallet} className="bg-purple-600 hover:bg-purple-700">
-            {connectTextSt}
-          </Button>
-          {connectLinkSt && (
-            <a
-              href={connectLinkSt}
-              target="_blank"
-              rel="noreferrer"
-              className="block text-white mt-2"
-            >
-              View on HashScan
-            </a>
-          )}
-        </div>
         <Card className="max-w-md mx-auto bg-gray-800 border-purple-500">
           <CardContent className="p-6">
             <form className="space-y-4">
@@ -191,7 +149,7 @@ export default function CreatePage() {
                 </Label>
                 <Input
                   id="expiry-date"
-                  type="datetime-local"
+                  // type="datetime-local"
                   value={expiry}
                   onChange={(e) => setExpiry(e.target.value)}
                   className="bg-gray-700 text-white"
@@ -213,6 +171,7 @@ export default function CreatePage() {
               </div>
               <Button
                 onClick={createOption}
+                type="button"
                 className="w-full bg-purple-600 hover:bg-purple-700 transition-colors"
               >
                 Create Option
